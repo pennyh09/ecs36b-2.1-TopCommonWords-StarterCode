@@ -11,12 +11,9 @@
 const std::string SPECIAL = "\\,.:;\"|!@#$%^&*()_+-=[]{}<>?/~`'";
 
 std::string lstrip(const std::string& str, const std::string& to_remove) {
-    auto it = std::ranges::find_if(
-      str,
-        [&](char c) {
-            return to_remove.find(c) == std::string::npos;
-        }
-    );
+    auto it = std::ranges::find_if(str, [&](char c) {
+        return to_remove.find(c) == std::string::npos;
+    });
 
     return std::string(it, str.end());
 }
@@ -65,19 +62,21 @@ std::string lstrip(const std::string& str, const std::string& to_remove) {
     }
 
 
-    std::vector< std::string > exclude(std::vector< std::string >& read){
-        std::vector<std::string> clean;
+   std::vector<std::string> exclude(std::vector<std::string>& read) {
+    std::vector<std::string> clean;
 
-        for (auto itr = read.begin() ; itr != read.end(); ++itr) {
-            auto convertedWord = lower_str(*itr);
-            auto convertedWord2 = rstrip(convertedWord,SPECIAL);
-            auto convertedWord3 = lstrip(convertedWord2,SPECIAL);
+    for (auto itr = read.begin(); itr != read.end(); ++itr) {
+        auto convertedWord = lower_str(*itr);
+        auto convertedWord2 = rstrip(convertedWord, SPECIAL);
+        auto convertedWord3 = lstrip(convertedWord2, SPECIAL);
 
-            if (!convertedWord.empty() && !shouldIgnore(convertedWord)) {
-                clean.push_back(convertedWord3);
-            }
+        if (!convertedWord3.empty() && !shouldIgnore(convertedWord3)) {
+            clean.push_back(convertedWord3);
         }
     }
+
+    return clean;
+}
 
 
     std::map<std::string, int > countOcurr(std::vector<std::string> fileWords) {
@@ -120,7 +119,7 @@ void printFormat(const std::vector<std::pair<std::string, int>>& vec, int N) {
     }
 }
 
-std::map<int, std::vector<std::string>, std::greater<int>>
+std::map<int, std::vector<std::string>, std::greater<>>
 groupByCount(const std::map<std::string, int>& counts) {
 
     std::map<int, std::vector<std::string>, std::greater<int>> grouped;
