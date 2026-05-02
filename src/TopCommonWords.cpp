@@ -25,13 +25,13 @@ std::string lstrip(const std::string& str, const std::string& to_remove) {
     std::string rstrip(const std::string& str, const std::string& to_remove){
     auto result = str
     |std::views::reverse
-    |std::ranges::views::drop_while([&](char c){
+    |std::views::drop_while([&](char c){
     return to_remove.find(c) != std::string::npos; }
     )
-    |std::views::reverse
-    |std::ranges::to<std::string>();
+    |std::views::reverse;
 
-    return result;
+
+    return std::string(result.begin(), result.end());
 
     }
 
@@ -69,7 +69,7 @@ std::string lstrip(const std::string& str, const std::string& to_remove) {
         std::vector<std::string> clean;
 
         for (auto itr = read.begin() ; itr != read.end(); ++itr) {
-            auto convertedWord = lower_str(read(*itr));
+            auto convertedWord = lower_str(*itr);
             auto convertedWord2 = rstrip(convertedWord,SPECIAL);
             auto convertedWord3 = lstrip(convertedWord2,SPECIAL);
 
@@ -128,7 +128,7 @@ groupByCount(const std::map<std::string, int>& counts) {
     for (const auto& [word, count] : counts) {
         grouped[count].push_back(word);
     }
-    
+
     for (auto& [count, words] : grouped) {
         std::sort(words.begin(), words.end());
     }
